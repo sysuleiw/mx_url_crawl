@@ -16,7 +16,7 @@ def get_2l_by_text(start, end, a_list, url):
     img2l_link = ''  # 存储找到第一个符合标准的图片链接
     nov2l_link = ''  # 存储找到第一个符合标准的图片链接
     vid2l_link = ''  # 存储找到第一个符合标准的图片链接
-    list_a = a_list[start:end]
+    list_a = a_list[0:end] # a_list[start:end] 部分站点的分类链接是3个字,会导致计算文字距离差的时候出现-1值,后期考虑到性能优化可更改start参数
     # 通过关键字寻找对应的图片,小说,电影链接
     for idx, value in enumerate(list_a):
         if len(Config.r_img2l.findall(list_a[idx].text)) and not b_add_img:
@@ -105,7 +105,6 @@ def parse3l(url):
                     last = a.get_attribute('href').strip()
                 except:
                     print '3l_unicode_error:' + a.get_attribute('href')
-        print 0
         if len(result):
             start, end = get_max_sum.main(result)
             middle = (end - start) / 2 + start

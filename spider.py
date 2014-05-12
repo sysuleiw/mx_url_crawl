@@ -112,12 +112,9 @@ def parse3l(url):
             while middle:
                 href = list_a[middle].get_attribute('href')
                 if href:
-                    print 111
                     href = urlparse.urljoin(
                         url, href).replace('../', '') + '\n'
-                    print 12
                     Config.l_3l.append(href)
-                    print 222
                     break
                 else:
                     middle -= 1

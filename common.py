@@ -7,8 +7,6 @@ import codecs
 from selenium import webdriver
 
 
-
-
 class FileOper(object):
 
     '''文件操作类
@@ -21,7 +19,7 @@ class FileOper(object):
         result = []
         with open(file_path, 'r') as f:
             for line in f.readlines():
-                result.append(line.replace('\n','').strip())  # 首先过滤字符串前后空格
+                result.append(line.replace('\n', '').strip())  # 首先过滤字符串前后空格
         return result
 
     def file_write(self, file_path, content):
@@ -47,7 +45,7 @@ class FileOper(object):
         except:
             print 'error!:'
             print traceback.format_stack()
-            pdb.set_trace()  
+            pdb.set_trace()
             fw.close()
 
 
@@ -66,7 +64,7 @@ class BrowserList(object):
         self.queue = []
         self.browser_name = browser_name
         self.process_num = process_num
-        
+
         for i in xrange(process_num):
             # webdriver.Firefox and webdriver.PhantomJS均可,PhantomJS是后台运行,效率高但是会出现部分页面乱码问题
             # todo:web.PhantomJS
@@ -117,6 +115,7 @@ class BrowserList(object):
         # 成功获取浏览器进程,某些情况下浏览器进程异常会导致退出进程,故需要重新分配
         return ptm
 
+
 class Config(object):
 
     '''配置文件类
@@ -147,4 +146,4 @@ class Config(object):
     l_3l = multiprocessing.Manager().list()     # 存放3级链接(可通用)
 
     # 初始化浏览器列表
-    browser_list = BrowserList('ch',process_num)
+    browser_list = BrowserList('ch', process_num)

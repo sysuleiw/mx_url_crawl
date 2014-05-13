@@ -21,7 +21,7 @@ class FileOper(object):
         result = []
         with open(file_path, 'r') as f:
             for line in f.readlines():
-                result.append(line.strip())  # 首先过滤字符串前后空格
+                result.append(line.replace('\n','').strip())  # 首先过滤字符串前后空格
         return result
 
     def file_write(self, file_path, content):

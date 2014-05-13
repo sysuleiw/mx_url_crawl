@@ -16,7 +16,8 @@ def get_2l_by_text(start, end, a_list, url):
     img2l_link = ''  # 存储找到第一个符合标准的图片链接
     nov2l_link = ''  # 存储找到第一个符合标准的图片链接
     vid2l_link = ''  # 存储找到第一个符合标准的图片链接
-    list_a = a_list[0:end] # a_list[start:end] 部分站点的分类链接是3个字,会导致计算文字距离差的时候出现-1值,后期考虑到性能优化可更改start参数
+    # a_list[start:end] 部分站点的分类链接是3个字,会导致计算文字距离差的时候出现-1值,后期考虑到性能优化可更改start参数
+    list_a = a_list[0:end]
     # 通过关键字寻找对应的图片,小说,电影链接
     for idx, value in enumerate(list_a):
         if len(Config.r_img2l.findall(list_a[idx].text)) and not b_add_img:
@@ -91,18 +92,22 @@ def parse3l(url):
 
     list_a = ptm.find_elements_by_tag_name('a')
     last = ''  # 初始化0
+    last_txt = ''
     result = []
     try:
         for a in list_a:
             if a.get_attribute('href'):
                 try:
                     # href可能包含中文,因此捕获异常
-                    if distance(str(a.get_attribute('href').strip()), str(last)) < Config.edit_dist:
+                    # 编辑距离小于3并且两个链接的字数不能相等(过滤导航,部分站点导航的href差异很小,需要通过文本数量过滤)
+                    if (distance(str(a.get_attribute('href').strip()), str(last)) < Config.edit_dist) and \
+                        len(a.text.strip()) - len(last_txt) != 0:
                         result.append(1)
                     else:
                         result.append(-1)
                     # 保留上一个a链接
                     last = a.get_attribute('href').strip()
+                    last_txt = a.text.strip()
                 except:
                     print '3l_unicode_error:' + a.get_attribute('href')
         if len(result):

@@ -3,7 +3,7 @@ import multiprocessing
 import traceback
 import get_max_sum
 import urlparse
-from Levenshtein import *  # 求解编辑距离,利用动态规划算法,已有现成包可用
+from Levenshtein import distance  # 求解编辑距离,利用动态规划算法,已有现成包可用
 from common import *
 
 
